@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const ratingSchema = new Schema(
   {
     user: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User",
     },
     value: {
@@ -21,7 +21,7 @@ const ratingSchema = new Schema(
 const reviewSchema = new Schema(
   {
     user: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User",
     },
     comment: {
@@ -64,10 +64,18 @@ const recipeSchema = new Schema(
       },
     ],
     imageUrl: String,
+
     cookingTime: {
-      type: Number,
-      required: true,
+      time: {
+        type: Number,
+        required: true,
+      },
+      unit: {
+        type: String,
+        required: true,
+      },
     },
+
     difficulty: {
       type: String,
       enum: ["Easy", "Medium", "Hard"],
