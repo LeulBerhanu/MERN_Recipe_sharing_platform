@@ -1,5 +1,4 @@
 const Recipe = require("../models/recipeModel");
-const User = require("../models/userModel");
 const mongoose = require("mongoose");
 
 // get recipes
