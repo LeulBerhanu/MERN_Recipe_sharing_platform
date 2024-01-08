@@ -34,6 +34,10 @@ const reviewSchema = new Schema(
 
 const recipeSchema = new Schema(
   {
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
     title: {
       type: String,
       required: true,

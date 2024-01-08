@@ -1,4 +1,5 @@
 const Recipe = require("../models/recipeModel");
+const User = require("../models/userModel");
 const mongoose = require("mongoose");
 
 // get recipes
@@ -9,8 +10,7 @@ const getRecipes = async (req, res) => {
     if (recipes.length === 0)
       return res.status(404).json({ error: "No recipes available" });
 
-    res.render("index");
-    // res.status(200).json(recipes);
+    res.status(200).json(recipes);
   } catch (error) {
     res.status(500).json(error);
   }
@@ -35,6 +35,7 @@ const getRecipe = async (req, res) => {
 // create a recipe
 const createRecipe = async (req, res) => {
   const {
+    user,
     title,
     description,
     ingredients,
