@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import useSignup from "../hooks/useSignup";
 
 const Signup = () => {
   const [data, setData] = useState({
@@ -8,11 +8,18 @@ const Signup = () => {
     password: "",
   });
 
-  console.log(data);
+  const { signup, error, isLoading } = useSignup();
 
-  const handleSubmit = (e) => {
+  //   console.log(data);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios.post();
+
+    try {
+      await signup(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -70,6 +77,11 @@ const Signup = () => {
       <br />
 
       <button type="submit">Sign up</button>
+
+      <br />
+      <br />
+      {isLoading && <p>isLoading</p>}
+      {error && <p>{error}</p>}
     </form>
   );
 };
