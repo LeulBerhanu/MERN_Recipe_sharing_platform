@@ -1,6 +1,20 @@
-import { useState } from "react";
+import { Routes, Route } from "react-router-dom";
+// components
+import Navbar from "./components/Navbar";
+// pages
+import Home from "./pages/Home";
+import Signup from "./pages/Signup";
+
 function App() {
-  return <h1>hELLO</h1>;
+  return (
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/signup" element={<Signup />} />
+      </Routes>
+    </>
+  );
 }
 
 export default App;
