@@ -35,7 +35,6 @@ const getRecipe = async (req, res) => {
 // create a recipe
 const createRecipe = async (req, res) => {
   const {
-    user,
     title,
     description,
     ingredients,
@@ -49,9 +48,12 @@ const createRecipe = async (req, res) => {
   } = req.body;
 
   try {
+    const user_id = req.user._id;
+
     const recipe = await Recipe.create({
-      title,
-      description,
+      user: user_id,
+      title: title.trim(),
+      description: description.trim(),
       ingredients,
       steps,
       imageUrl,
@@ -64,7 +66,7 @@ const createRecipe = async (req, res) => {
 
     res.status(200).json(recipe);
   } catch (error) {
-    res.status(500).json(error);
+    res.status(500).json({ error: error.message });
   }
 };
 
