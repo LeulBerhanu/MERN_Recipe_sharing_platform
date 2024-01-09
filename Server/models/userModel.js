@@ -14,30 +14,12 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    username: {
-      type: String,
-      unique: true,
-      required: true,
-    },
-    profileName: {
-      type: String,
-    },
-    bio: String,
-    profilePicture: String,
   },
   { timestamps: true }
 );
 
 // static signup method
-userSchema.statics.signup = async function (
-  email,
-  password,
-  username,
-  profileName,
-  bio,
-  profilePicture
-) {
-  console.log("email", password);
+userSchema.statics.signup = async function (email, password) {
   // Validation
   if (!email) {
     throw new Error("Email is required!");
@@ -47,21 +29,11 @@ userSchema.statics.signup = async function (
     throw new Error("Password is required!");
   }
 
-  if (!username) {
-    throw new Error("Username is required!");
-  }
-
   if (!validator.isEmail(email)) {
     throw new Error("Invalid Email Address!");
   }
   if (!validator.isStrongPassword(password)) {
     throw new Error("Password not strong enough!");
-  }
-
-  const usernameExists = await this.findOne({ username });
-
-  if (usernameExists) {
-    throw new Error("Username already exists");
   }
 
   const emailExists = await this.findOne({ email });
@@ -76,10 +48,6 @@ userSchema.statics.signup = async function (
   const user = await this.create({
     email,
     password: hashedPass,
-    username,
-    profileName: profileName ? profileName : username,
-    bio,
-    profilePicture,
   });
 
   return user;
