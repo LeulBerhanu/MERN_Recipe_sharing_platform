@@ -7,12 +7,6 @@ const createUserProfile = async (req, res) => {
   try {
     const user_id = req.user._id;
 
-    const existingProfile = await UserProfile.findOne({ user: user_id });
-
-    if (existingProfile) {
-      return res.status(400).json({ message: "User already has a profile." });
-    }
-
     const userProfile = await UserProfile.create({
       user: user_id,
       firstName,
@@ -23,7 +17,24 @@ const createUserProfile = async (req, res) => {
       avatar,
     });
 
-    res.status(200).json(userProfile);
+    res.status(201).json(userProfile);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getUserProfile = async (req, res) => {
+  const { profileId } = req.params;
+  console.log(profileId);
+
+  try {
+    if (!mongoose.isValidObjectId(profileId)) {
+      return res.status(400).json({ message: "Invalid profile ID!" });
+    }
+
+    const profile = await UserProfile.findById({ _id: profileId });
+
+    res.status(200).json(profile);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -56,4 +67,4 @@ const updateUserProfile = async (req, res) => {
   }
 };
 
-module.exports = { createUserProfile, updateUserProfile };
+module.exports = { createUserProfile, getUserProfile, updateUserProfile };

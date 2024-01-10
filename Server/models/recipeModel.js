@@ -4,9 +4,9 @@ const Schema = mongoose.Schema;
 
 const ratingSchema = new Schema(
   {
-    user: {
+    userProfile: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: "UserProfile",
     },
     value: {
       type: Number,
@@ -20,9 +20,9 @@ const ratingSchema = new Schema(
 
 const reviewSchema = new Schema(
   {
-    user: {
+    userProfile: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: "UserProfile",
     },
     comment: {
       type: String,
@@ -34,9 +34,9 @@ const reviewSchema = new Schema(
 
 const recipeSchema = new Schema(
   {
-    user: {
+    userProfile: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: "UserProfile",
     },
     title: {
       type: String,

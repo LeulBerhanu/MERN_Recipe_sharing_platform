@@ -1,10 +1,13 @@
 const Recipe = require("../models/recipeModel");
 const mongoose = require("mongoose");
+const UserProfile = require("../models/userProfileModel");
 
 // get recipes
 const getRecipes = async (req, res) => {
+  const profile_id = req.profile._id;
+
   try {
-    const recipes = await Recipe.find({});
+    const recipes = await Recipe.find({ userProfile: profile_id });
 
     if (recipes.length === 0)
       return res.status(404).json({ error: "No recipes available" });
@@ -22,6 +25,7 @@ const getRecipe = async (req, res) => {
     return res.status(404).json({ error: "Recipe not found!" });
 
   try {
+    const profile_id = req.profile._id;
     const recipe = await Recipe.findById(id);
     if (!recipe) return res.status(404).json({ error: "Recipe not found!" });
 
@@ -47,10 +51,10 @@ const createRecipe = async (req, res) => {
   } = req.body;
 
   try {
-    const user_id = req.user._id;
+    const profile_id = req.profile._id;
 
     const recipe = await Recipe.create({
-      user: user_id,
+      userProfile: profile_id,
       title: title.trim(),
       description: description.trim(),
       ingredients,
@@ -63,7 +67,7 @@ const createRecipe = async (req, res) => {
       reviews,
     });
 
-    res.status(200).json(recipe);
+    res.status(201).json(recipe);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

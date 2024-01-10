@@ -1,5 +1,6 @@
 const express = require("express");
 const requireAuth = require("../middleware/requireAuth");
+const requireProfile = require("../middleware/requireProfile");
 const {
   getRecipes,
   getRecipe,
@@ -9,6 +10,7 @@ const {
 const router = express.Router();
 
 router.use(requireAuth);
+router.use(requireProfile);
 
 router.get("/", getRecipes);
 
