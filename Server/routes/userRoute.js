@@ -2,6 +2,7 @@ const {
   getUser,
   getUsers,
   createUser,
+  loginUser,
 } = require("../controllers/userController");
 
 const express = require("express");
@@ -12,6 +13,8 @@ router.get("/", getUsers);
 
 router.get("/:id", getUser);
 
-router.post("/", createUser);
+router.post("/signup", createUser);
+
+router.post("/login", loginUser);
 
 module.exports = router;

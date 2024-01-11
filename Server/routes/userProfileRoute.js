@@ -11,10 +11,10 @@ const router = express.Router();
 
 router.use(requireAuth);
 
-router.get("/:profileId", getUserProfile);
+router.get("/:_id", getUserProfile);
 
 router.post("/", createUserProfile);
 
-router.patch("/:profileId", updateUserProfile);
+router.patch("/:_id", updateUserProfile);
 
 module.exports = router;

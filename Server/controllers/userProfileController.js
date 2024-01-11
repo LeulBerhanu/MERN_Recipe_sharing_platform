@@ -24,15 +24,14 @@ const createUserProfile = async (req, res) => {
 };
 
 const getUserProfile = async (req, res) => {
-  const { profileId } = req.params;
-  console.log(profileId);
+  const { _id } = req.params;
+  console.log(_id);
 
+  if (!mongoose.isValidObjectId(_id)) {
+    return res.status(400).json({ message: "Invalid ID" });
+  }
   try {
-    if (!mongoose.isValidObjectId(profileId)) {
-      return res.status(400).json({ message: "Invalid profile ID!" });
-    }
-
-    const profile = await UserProfile.findById({ _id: profileId });
+    const profile = await UserProfile.findById({ _id });
 
     res.status(200).json(profile);
   } catch (error) {
@@ -41,16 +40,28 @@ const getUserProfile = async (req, res) => {
 };
 
 const updateUserProfile = async (req, res) => {
-  const { profileId } = req.params;
+  const { _id } = req.params;
   const user_id = req.user._id;
+
   const updateFields = req.body;
 
+  if (Object.keys(req.body).length === 0) {
+    return res.status(204).json({ message: "No update performed!" });
+  }
+
   try {
-    if (!mongoose.isValidObjectId(profileId)) {
-      return res.status(400).json({ message: "Invalid profile ID!" });
+    if (!mongoose.isValidObjectId(_id)) {
+      return res.status(400).json({ message: "Invalid Id!" });
     }
 
-    let userProfile = await UserProfile.findById({ _id: profileId });
+    let userProfile = await UserProfile.findById({ _id });
+
+    if (user_id.toString() !== userProfile.user.toString()) {
+      return res
+        .status(401)
+        .json({ message: "User isn't authorized to update this profile." });
+    }
+
     if (!userProfile) {
       return res.status(404).json({ message: "User profile not found!" });
     }

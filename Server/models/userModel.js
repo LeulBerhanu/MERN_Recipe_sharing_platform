@@ -30,7 +30,7 @@ userSchema.statics.signup = async function (email, password) {
   }
 
   if (!validator.isEmail(email)) {
-    throw new Error("Invalid Email Address!");
+    throw new Error("Invalid Email address!");
   }
   if (!validator.isStrongPassword(password)) {
     throw new Error("Password not strong enough!");
@@ -49,6 +49,40 @@ userSchema.statics.signup = async function (email, password) {
     email,
     password: hashedPass,
   });
+
+  return user;
+};
+
+// static login method
+userSchema.statics.login = async function (email, password) {
+  // Validation
+  if (!email) {
+    throw new Error("Email is required!");
+  }
+
+  if (!password) {
+    throw new Error("Password is required!");
+  }
+
+  if (!validator.isEmail(email)) {
+    throw new Error("Invalid Email address!");
+  }
+
+  if (!validator.isStrongPassword(password)) {
+    throw new Error("Password not strong enough!");
+  }
+
+  const user = await this.findOne({ email });
+
+  if (!user) {
+    throw new Error("Incorrect email.");
+  }
+
+  const match = await bcrypt.compare(password, user.password);
+
+  if (!match) {
+    throw new Error("Incorrect password.");
+  }
 
   return user;
 };

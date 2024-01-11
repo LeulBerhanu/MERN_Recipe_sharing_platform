@@ -1,6 +1,6 @@
 const express = require("express");
 const requireAuth = require("../middleware/requireAuth");
-const requireProfile = require("../middkware/requireProfile");
+const requireProfile = require("../middleware/requireProfile");
 const {
   getRecipes,
   getRecipe,
